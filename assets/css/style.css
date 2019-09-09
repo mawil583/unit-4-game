@@ -1,3 +1,29 @@
 body {
     background-image: url(https://images4.alphacoders.com/201/201368.png);
 }
+h1 {
+    text-align: right;
+    color: white;
+    font-size: 3em;
+    margin-top: 10px;
+    margin-right: 5em;
+}
+h2 {
+    color: white;
+    font-size: 2em;
+}
+.container {
+    border: 2px solid white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 12em;
+    
+}
+.character {
+    height: 10em;
+    border: 1px solid white;
+    width: 11em;
+    margin-left: 5px;
+    background-color: white;
+}
