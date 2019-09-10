@@ -27,3 +27,6 @@ h2 {
     margin-left: 5px;
     background-color: white;
 }
+.character:hover {
+    transform: scale(1.03);
+}
