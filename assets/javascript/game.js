@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     let fighters = {
-                
+
         "obi": {
             healthPoints: 120,
             attackPower: 8,
@@ -30,7 +30,8 @@ $(document).ready(function () {
 
     // This dynamically creates boxes with each assigned to a character by
     // looping through the fighters in the object. Object.keys(fighters) 
-    // returns an array of
+    // returns an array consisting of the keys of the object {fighters}. 
+    // Then the loop just executes the code for each of the 4 characters. 
     for (let fighter of Object.keys(fighters)) {
 
         let character = $("<div>");
@@ -55,6 +56,7 @@ $(document).ready(function () {
         $(".player").addClass("enemy");
         $("#attackers").append($(".enemy"));
         $("#players").append($(this));
+        $(this).removeClass("charHov")
         $(this).toggleClass("enemy player");
     })
 
@@ -63,10 +65,14 @@ $(document).ready(function () {
     $("#attackers").on("click", ".enemy", function () {
 
         $(this).toggleClass("enemy dual");
+        $(this).removeClass("charHov");
         $("#attack").append($(this));
         // This changes enemies class so that you can't select more than
         // one opponent.
         $(".enemy").toggleClass("enemy bench")
+    })
+    $("button").on("click", function () {
+        // 
     })
 
 })

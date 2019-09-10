@@ -13,11 +13,11 @@ h2 {
     font-size: 2em;
 }
 .container {
-    border: 2px solid white;
+    /* border: 2px solid white; */
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 12em;
+    height: 11em;
     
 }
 .character {
@@ -27,6 +27,7 @@ h2 {
     margin-left: 5px;
     background-color: white;
 }
-.character:hover {
+.charHov:hover {
     transform: scale(1.03);
+    border: 4px solid rgb(116, 181, 42);
 }
