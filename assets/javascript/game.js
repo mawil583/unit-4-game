@@ -72,8 +72,30 @@ $(document).ready(function () {
         $(".enemy").toggleClass("enemy bench")
     })
     $("button").on("click", function () {
+        
+        // access the opponent's (class duel) health points and subtract 
+        //     from it your character's attackPower 
+        // display his current healthpoints on his picture
+        // if opponent's healthpoints are less than or equal to 0, display "You Won!" 
+        //     and toggle classes of remaining enemies from bench to enemy. Then
+        //      delete enemy with the class "dual".
+        // access my character's (class player) health points and subtract from it my 
+        //     opponent's counterattack power
+        // display my current healthpoints on my picture
+        // if opponent's healthpoints are less than or equal to 0, display "You Lost"
+        //     and freeze all click events except reset
+        // display under the opponent (append to div with ID attack) "you 
+        //     attacked (data-name associated with #attack Id) for 
+        // [your character's attack power] damage"
+        // display under the opponent (append to div with ID attack) 
+        //     "(data-name associated with #attack Id) attacked you back for 
+        //      [opponent's counterattack power] damage."
+        // double your character's attack power
         // 
     })
+
+    // add reset button that appends all players to #players ID and resets
+        // player values
 
 })
 
