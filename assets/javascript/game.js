@@ -1,42 +1,52 @@
 $(document).ready(function () {
-    let fighters = [
 
-        {
-            name: "obi",
+    let fighters = {
+                
+        "obi": {
             healthPoints: 120,
             attackPower: 8,
             counterAttackPower: 16
         },
-        {
-            name: "maul",
+        "maul": {
             healthPoints: 180,
             attackPower: 7,
             counterAttackPower: 14
         },
-        {
-            name: "skywalker",
+        "skywalker": {
             healthPoints: 100,
             attackPower: 6,
             counterAttackPower: 12,
         },
-        {
-            name: "sidious",
+        "sidious": {
             healthPoints: 150,
             attackPower: 9,
             counterAttackPower: 18
         }
-    ]
-    
-    let characters = ["obi", "maul", "skywalker", "sidious"];
-
-    // This dynamically creates boxes with each assigned to a character
-    for (let i = 0; i < characters.length; i++) {
-        let character = $("<div>");
-        character.addClass("player character");
-        character.attr("data-name", characters[i]);
-        character.text(characters[i]);
-        $("#players").append(character);
     }
+
+    console.log(Object.keys(fighters));
+    console.log(Object.values(fighters));
+    console.log(Object.entries(fighters));
+
+    // This dynamically creates boxes with each assigned to a character by
+    // looping through the fighters in the object. Object.keys(fighters) 
+    // returns an array of
+    for (let fighter of Object.keys(fighters)) {
+
+        let character = $("<div>");
+        character.addClass("player character charHov");
+        character.attr("data-name", fighter);
+        character.text(fighter);
+        $("#players").append(character);
+        console.log(fighters[fighter]);
+        console.log(fighter + " has " + fighters[fighter].healthPoints + " HP");
+    }
+    // console.log(fighters."skywalker".healthPoints) is incorrect syntax
+    // and it's the reason that fighters.fighter.healthPoints doesn't
+    // work in the for loop.
+    fighters.skywalker.healthPoints += 10;
+    console.log(fighters.skywalker.healthPoints);
+    
 
     // This lets you choose a player, and puts the rest of the players
     // into the enemy section
