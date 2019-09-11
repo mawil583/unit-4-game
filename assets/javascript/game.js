@@ -9,7 +9,7 @@ $(document).ready(function () {
             counterAttackPower: 16,
         },
         "maul": {
-            healthPoints: 180,
+            healthPoints: 1000,
             attackPower: 7,
             counterAttackPower: 14
         },
@@ -56,7 +56,7 @@ $(document).ready(function () {
         console.log(fighter + " has " + fighters[fighter].healthPoints + " HP");
     }
 
-   
+
     console.log(fighters.skywalker.healthPoints);
 
     // This lets you choose a player, and puts the rest of the players into 
@@ -84,7 +84,7 @@ $(document).ready(function () {
         $(".enemy").toggleClass("enemy bench");
     })
     $("button").on("click", function () {
-        
+
 
         // access the opponent's (class duel) health points and subtract 
         //     from it your character's attackPower 
@@ -92,7 +92,8 @@ $(document).ready(function () {
         let playerName = $(".character").attr("data-name");
         console.log(fighters[enemyName].healthPoints);
         // console.log(fighters.enemyName.healthPoints);
-        (fighters[enemyName].healthPoints) -= (fighters[playerName].attackPower);
+        console.log(fighters[enemyName].healthPoints)
+        fighters[enemyName].healthPoints -= (fighters[playerName].attackPower);
         // console.log(fighters.enemyName.healthPoints)
         console.log($(".dual").attr("data-name"));
 
@@ -100,7 +101,7 @@ $(document).ready(function () {
         // let enemy = fighters[enemyName];
         // let player = fighters[playerName];
         // enemy.healthPoints -= player.attackPower;
-        
+
         console.log("enemy health points: " + fighters[enemyName].healthPoints);
         console.log("enemy health points after I attack him: " + (fighters[enemyName].healthPoints - fighters[playerName].attackPower));
 
@@ -116,25 +117,37 @@ $(document).ready(function () {
         // if opponent's healthpoints are less than or equal to 0, display "You Won!" 
         //     and toggle classes of remaining enemies from bench to enemy. Then
         //      delete enemy with the class "dual".
-        if (fighters[enemyName].healthPoints <= 0) {
-            $("#attack").append("<div class='endGame'>You won against " + ($(".dual").attr("data-name")) + "! Now choose another enemy to fight.</div>");
+        if (fighters[enemyName].healthPoints <= 0 && fighters[playerName].healthPoints > 0) {
+            $("#attack").append("<div class='endGame'>You won against " + ($(".dual").attr("data-name")) +
+                "! Now choose another enemy to fight.</div>");
             $(".dual").remove();
             $(".bench").toggleClass("bench enemy");
+            
         }
 
         // access my character's (class player) health points and subtract from it my 
         //     opponent's counterattack power
-        
+
         console.log("playerHealthBefore: " + (fighters[playerName].healthPoints))
         console.log(fighters[enemyName].counterAttackPower)
         fighters[playerName].healthPoints -= (fighters[enemyName].counterAttackPower);
         console.log("playerHealthAfter: " + (fighters[playerName].healthPoints))
+        if (fighters[playerName].healthPoints <= 0) {
+            $("button").off("click");
+        }
 
         // display my current healthpoints on my picture
         $(".player").children("p").text("Health-Points = " + fighters[playerName].healthPoints)
 
         // if opponent's healthpoints are less than or equal to 0, display "You Lost"
         //     and freeze all click events except reset
+        if (fighters[playerName].healthPoints <= 0 && fighters[enemyName].healthPoints > 0) {
+            $("button").off("click");
+            $("#attack").append("<div class='endGame'>You lost against " + ($(".dual").attr("data-name")) +
+                "! Click Restart to try again.</div>");
+            $("#attack").append("<button class='reset';>Reset</button>");
+        }
+
         // display under the opponent (append to div with ID attack) "you 
         //     attacked (data-name associated with #attack Id) for 
         //      [your character's attack power] damage"
@@ -142,7 +155,8 @@ $(document).ready(function () {
         //     "(data-name associated with #attack Id) attacked you back for 
         //      [opponent's counterattack power] damage."
         // double your character's attack power
-        // 
+            fighters[playerName].attackPower += fighters[playerName].attackPower;
+            console.log(fighters[playerName].counterAttackPower *= 2);
     })
 
     // add reset button that appends all players to #players ID and resets
