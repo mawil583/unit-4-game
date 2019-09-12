@@ -116,17 +116,16 @@ $(document).ready(function () {
                 $(".dual").remove();
                 let enemyPlayersCount = $(".bench").length + $(".dual").length + $(".enemy").length;
                 $(".bench").toggleClass("bench enemy");
-                console.log("enemies remaining: " + enemyPlayersCount)
+                console.log("enemies remaining: " + enemyPlayersCount);
                 if (enemyPlayersCount > 0) {
                     $("#attack").append("<div class='endGame'>You won against " + (defeatedEnemy) +
                         "! Now choose another enemy to fight.</div>");
                     // $("button").off("click");
                 } else if (enemyPlayersCount <= 0) {
+                    $(".attackBtn").attr("disabled", true);
                     $("#attack").append("<div class='endGame'>Congratulations! You won the game!</div>");
                     $("#attack").append("<button class='reset';>Reset</button>");
-                    $("button").off("click");
-                    console.log("you've been alerted that you won the game and toggled classes and off.click")
-
+                    console.log("you've been alerted that you won the game and toggled classes and off.click");
                 }
 
                 // if (fighters[enemyName].healthPoints <= 0 && fighters[playerName].healthPoints > 0) {
@@ -176,7 +175,7 @@ $(document).ready(function () {
         // if opponent's healthpoints are less than or equal to 0, display "You Lost"
         //     and freeze all click events except reset
         if (fighters[playerName].healthPoints <= 0 && fighters[enemyName].healthPoints > 0) {
-            $("button").off("click");
+            $(".attackBtn").attr("disabled", true);
             $("#attack").append("<div class='endGame'>You lost against " + ($(".dual").attr("data-name")) +
                 "! Click Restart to try again.</div>");
             $("#attack").append("<button class='reset'>Reset</button>");
@@ -212,7 +211,7 @@ $(document).ready(function () {
             fighters.skywalker.attackPower = 6;
             fighters.sidious.attackPower = 9;
             loop();
-            $("button").on("click");
+            $(".attackBtn").attr("disabled", false);
         })
     })
 })
