@@ -15,7 +15,7 @@ $(document).ready(function () {
         },
         "skywalker": {
             healthPoints: 100,
-            attackPower: 6,
+            attackPower: 5,
             counterAttackPower: 20,
         },
         "sidious": {
@@ -54,7 +54,7 @@ $(document).ready(function () {
             $("#players").append(character);
             console.log(fighter + " has " + fighters[fighter].healthPoints + " HP");
         }
-        fighters = Object.assign({}, fighters);
+        // fighters = Object.assign({}, fighters);
     }
     loop();
 
@@ -85,7 +85,7 @@ $(document).ready(function () {
     })
     // End character click section -------------------------------------------------------------
 
-    $("button").on("click", function () {
+    $(".attackBtn").on("click", function () {
         // variable declarations -----------------------------------------------------------
         console.log("attack button just clicked")
         // let enemyPlayersCount = $(".bench").length + $(".dual").length + $(".enemy").length;
@@ -117,7 +117,9 @@ $(document).ready(function () {
                 let enemyPlayersCount = $(".bench").length + $(".dual").length + $(".enemy").length;
                 $(".bench").toggleClass("bench enemy");
                 console.log("enemies remaining: " + enemyPlayersCount);
+                $(".battleDisplay").empty();
                 if (enemyPlayersCount > 0) {
+                    // $(".battleDisplay").empty();
                     $("#attack").append("<div class='endGame'>You won against " + (defeatedEnemy) +
                         "! Now choose another enemy to fight.</div>");
                     // $("button").off("click");
@@ -160,11 +162,18 @@ $(document).ready(function () {
         // console.log("number of enemy players after clicking: " + enemyPlayersCount);
         // display opponent's current healthpoints on picture
         $(".dual").children("p").text("Health-Points = " + fighters[enemyName].healthPoints);
-
+        // This displays to the user "You attacked enemy for _ damage"
+        
+        $(".battleDisplay").text("You attacked " + enemyName + " for " + fighters[playerName].attackPower + " damage.")
+        $("#attack").append($(".battleDisplay"));
+        
+        
         afterPlayerAttack();
-
+        
         if (fighters[enemyName].healthPoints > 0 && fighters[playerName].healthPoints > 0) {
             enemyCounterAttack();
+            $(".battleDisplay").append("<div>" + enemyName + " attacked you back for " + fighters[enemyName].counterAttackPower + " damage.")
+
         }
 
 
@@ -176,6 +185,7 @@ $(document).ready(function () {
         //     and freeze all click events except reset
         if (fighters[playerName].healthPoints <= 0 && fighters[enemyName].healthPoints > 0) {
             $(".attackBtn").attr("disabled", true);
+            $(".battleDisplay").empty();
             $("#attack").append("<div class='endGame'>You lost against " + ($(".dual").attr("data-name")) +
                 "! Click Restart to try again.</div>");
             $("#attack").append("<button class='reset'>Reset</button>");
@@ -195,8 +205,24 @@ $(document).ready(function () {
         // display under the opponent (append to div with ID attack) 
         //     "(data-name associated with #attack Id) attacked you back for 
         //      [opponent's counterattack power] damage."
+
+
         // double your character's attack power
-        fighters[playerName].attackPower += 20;
+        // after every time my player attacks enemy, my attack power increases by my initial attack power
+        
+        const initialAP = fighters[playerName].attackPower;
+        console.log("fighters[playerName].attackPower before " + fighters[playerName].attackPower)
+        fighters[playerName].attackPower += initialAP;
+        console.log("fighters[playerName].attackPower after " + fighters[playerName].attackPower)
+
+
+        /* fightersAP = fightersAP + 5
+            fightersAP = 10
+            fightersAP = fightersAP + 5*/
+            
+
+        
+
 
 
         // reset button

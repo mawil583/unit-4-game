@@ -51,3 +51,9 @@ img {
     font-size: 1.5em;
     margin-left: 16px;
 }
+.battleDisplay {
+    color: white;
+    font-size: 2em;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
