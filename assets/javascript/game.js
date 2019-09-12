@@ -6,17 +6,17 @@ $(document).ready(function () {
         "obi": {
             healthPoints: 120,
             attackPower: 8,
-            counterAttackPower: 16,
+            counterAttackPower: 18,
         },
         "maul": {
-            healthPoints: 1000,
+            healthPoints: 300,
             attackPower: 7,
             counterAttackPower: 14
         },
         "skywalker": {
             healthPoints: 100,
             attackPower: 6,
-            counterAttackPower: 12,
+            counterAttackPower: 25,
         },
         "sidious": {
             healthPoints: 150,
@@ -28,6 +28,7 @@ $(document).ready(function () {
     console.log(Object.keys(fighters));
     console.log(Object.values(fighters));
     console.log(Object.entries(fighters));
+
 
     // This dynamically creates boxes with each assigned to a character by looping 
     //     through the fighters in the object. Object.keys(fighters) returns an 
@@ -43,21 +44,12 @@ $(document).ready(function () {
         let image = $("<img src='../unit-4-game/assets/images/" + fighter + ".jpeg'>");
         character.append(image);
         character.append("<br>");
-
-        // code that was working before...
-        // character.append("Health Points = " + fighters[fighter].healthPoints);
-        // $("#players").append(character);
-        // console.log(fighter + " has " + fighters[fighter].healthPoints + " HP");
-
         let healthDiv = $("<p>");
         $(healthDiv).text("Health Points = " + fighters[fighter].healthPoints)
         character.append(healthDiv);
         $("#players").append(character);
         console.log(fighter + " has " + fighters[fighter].healthPoints + " HP");
     }
-
-
-    console.log(fighters.skywalker.healthPoints);
 
     // This lets you choose a player, and puts the rest of the players into 
     //    the enemy section
@@ -83,61 +75,82 @@ $(document).ready(function () {
         // one opponent.
         $(".enemy").toggleClass("enemy bench");
     })
+    // End character click section -------------------------------------------------------------
+
     $("button").on("click", function () {
-
-
-        // access the opponent's (class duel) health points and subtract 
-        //     from it your character's attackPower 
+        // variable declarations -----------------------------------------------------------
+        console.log("attack button just clicked")
+        let enemyPlayersCount = $(".bench").length + $(".dual").length + $(".enemy").length;
+        let defeatedEnemy = ($(".dual").attr("data-name"));
+        console.log(enemyPlayersCount)
         let enemyName = $(".dual").attr("data-name");
+        console.log(enemyName);
         let playerName = $(".character").attr("data-name");
-        console.log(fighters[enemyName].healthPoints);
-        // console.log(fighters.enemyName.healthPoints);
-        console.log(fighters[enemyName].healthPoints)
+
+
+        // function declarations ----------------------------------------------------------
+        function enemyCounterAttack() {
+            // this subtracts my healthpoints 
+            fighters[playerName].healthPoints -= (fighters[enemyName].counterAttackPower);
+            // display my current healthpoints on my picture:
+            $(".player").children("p").text("Health-Points = " + fighters[playerName].healthPoints);
+            console.log("Length of players: " + enemyPlayersCount);
+        }
+
+
+        console.log(enemyPlayersCount);
+        function afterPlayerAttack() {
+            // if opponent's healthpoints are less than or equal to 0, display "You Won!" 
+            //     and toggle classes of remaining enemies from bench to enemy. Then
+            //      delete enemy with the class "dual".
+            if (fighters[enemyName].healthPoints <= 0 && fighters[playerName].healthPoints > 0 && enemyPlayersCount === 1) {
+                $(".dual").remove();
+                console.log("enemies remaining: " + enemyPlayersCount)
+                $("#attack").append("<div class='endGame'>Congratulations! You won the game!</div>");
+                $("#attack").append("<button class='reset';>Reset</button>");
+                $("button").off("click");
+            } else if (fighters[enemyName].healthPoints <= 0 && fighters[playerName].healthPoints > 0) {
+                $(".dual").remove();
+                $("#attack").append("<div class='endGame'>You won against " + (defeatedEnemy) +
+                "! Now choose another enemy to fight.</div>");
+                $(".bench").toggleClass("bench enemy");
+            }
+
+            // if (fighters[enemyName].healthPoints <= 0 && fighters[playerName].healthPoints > 0) {
+            //     $(".dual").remove();
+            //     console.log("enemies remaining: " + enemyPlayersCount)
+            //     $(".bench").toggleClass("bench enemy");
+            //     if (enemyPlayersCount > 0) {
+            //         $("#attack").append("<div class='endGame'>You won against " + (defeatedEnemy) +
+            //         "! Now choose another enemy to fight.</div>");
+            //     } else if (enemyPlayersCount <= 0) {
+            //         $("#attack").append("<div class='endGame'>Congratulations! You won the game!</div>");
+            //         $("#attack").append("<button class='reset';>Reset</button>");
+            //         $("button").off("click");
+            //         console.log("you've been alerted that you won the game and toggled classes and off.click")
+            //     }
+            // }
+        }
+        // end function declarations -------------------------------------------------------
+
+        // this subtracts enemy health points
+        console.log("number of enemy players before clicking: " + enemyPlayersCount);
         fighters[enemyName].healthPoints -= (fighters[playerName].attackPower);
-        // console.log(fighters.enemyName.healthPoints)
-        console.log($(".dual").attr("data-name"));
-
-        // the 3 lines below do the same thing as fighters[enemyName].healthPoints -= fighters[playerName].attackPower;
-        // let enemy = fighters[enemyName];
-        // let player = fighters[playerName];
-        // enemy.healthPoints -= player.attackPower;
-
-        console.log("enemy health points: " + fighters[enemyName].healthPoints);
         console.log("enemy health points after I attack him: " + (fighters[enemyName].healthPoints - fighters[playerName].attackPower));
-
-        // display opponent's current healthpoints on his picture
+        console.log("number of enemy players after clicking: " + enemyPlayersCount);
+        // display opponent's current healthpoints on picture
         $(".dual").children("p").text("Health-Points = " + fighters[enemyName].healthPoints);
 
+        afterPlayerAttack();
 
-        // enemyHp = enemyHp - (fighters[playerName].attackPower);
-        //     does not work because you're mutating the enemyHp variable instead of 
-        //     mutating the acual object
-
-
-        // if opponent's healthpoints are less than or equal to 0, display "You Won!" 
-        //     and toggle classes of remaining enemies from bench to enemy. Then
-        //      delete enemy with the class "dual".
-        if (fighters[enemyName].healthPoints <= 0 && fighters[playerName].healthPoints > 0) {
-            $("#attack").append("<div class='endGame'>You won against " + ($(".dual").attr("data-name")) +
-                "! Now choose another enemy to fight.</div>");
-            $(".dual").remove();
-            $(".bench").toggleClass("bench enemy");
-            
+        if (fighters[enemyName].healthPoints > 0 && fighters[playerName].healthPoints > 0) {
+            enemyCounterAttack();
         }
 
-        // access my character's (class player) health points and subtract from it my 
-        //     opponent's counterattack power
 
-        console.log("playerHealthBefore: " + (fighters[playerName].healthPoints))
-        console.log(fighters[enemyName].counterAttackPower)
-        fighters[playerName].healthPoints -= (fighters[enemyName].counterAttackPower);
-        console.log("playerHealthAfter: " + (fighters[playerName].healthPoints))
-        if (fighters[playerName].healthPoints <= 0) {
-            $("button").off("click");
-        }
-
-        // display my current healthpoints on my picture
-        $(".player").children("p").text("Health-Points = " + fighters[playerName].healthPoints)
+        // if (fighters[playerName].healthPoints <= 0) {
+        //     $("button").off("click");
+        // } 
 
         // if opponent's healthpoints are less than or equal to 0, display "You Lost"
         //     and freeze all click events except reset
@@ -146,7 +159,15 @@ $(document).ready(function () {
             $("#attack").append("<div class='endGame'>You lost against " + ($(".dual").attr("data-name")) +
                 "! Click Restart to try again.</div>");
             $("#attack").append("<button class='reset';>Reset</button>");
+            $(".player").children("p").text("Health-Points = " + fighters[playerName].healthPoints);
         }
+
+
+        // access my character's (class player) health points and subtract from it my 
+        //     opponent's counterattack power
+        console.log("playerHealthBefore: " + (fighters[playerName].healthPoints))
+        console.log(fighters[enemyName].counterAttackPower)
+        console.log("playerHealthAfter: " + (fighters[playerName].healthPoints))
 
         // display under the opponent (append to div with ID attack) "you 
         //     attacked (data-name associated with #attack Id) for 
@@ -155,8 +176,7 @@ $(document).ready(function () {
         //     "(data-name associated with #attack Id) attacked you back for 
         //      [opponent's counterattack power] damage."
         // double your character's attack power
-            fighters[playerName].attackPower += fighters[playerName].attackPower;
-            console.log(fighters[playerName].counterAttackPower *= 2);
+        fighters[playerName].attackPower += 20;
     })
 
     // add reset button that appends all players to #players ID and resets
@@ -164,3 +184,15 @@ $(document).ready(function () {
 
 })
 
+
+
+// if my health points are negative but I beat the last opponent, I shouldn't be able to continue
+
+// the 3 lines below do the same thing as fighters[enemyName].healthPoints -= fighters[playerName].attackPower;
+// let enemy = fighters[enemyName];
+// let player = fighters[playerName];
+// enemy.healthPoints -= player.attackPower;
+
+// enemyHp = enemyHp - (fighters[playerName].attackPower);
+//     does not work because you're mutating the enemyHp variable instead of 
+//     mutating the acual object
