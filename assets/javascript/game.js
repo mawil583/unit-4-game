@@ -9,7 +9,7 @@ $(document).ready(function () {
             counterAttackPower: 18,
         },
         "maul": {
-            healthPoints: 5000,
+            healthPoints: 2000,
             attackPower: 7,
             counterAttackPower: 14
         },
@@ -27,9 +27,9 @@ $(document).ready(function () {
 
 
 
-    // console.log(Object.keys(fighters));
-    // console.log(Object.values(fighters));
-    // console.log(Object.entries(fighters));
+    console.log(Object.keys(fighters));
+    console.log(Object.values(fighters));
+    console.log(Object.entries(fighters));
 
 
     // This dynamically creates boxes with each assigned to a character by looping 
@@ -78,7 +78,7 @@ $(document).ready(function () {
         $(this).removeClass("charHov");
         $("#attack").append($(this));
         // this removes the defeated character if there is one
-        $("div.endGame").remove();
+        $(".endGame").remove();
         // This changes enemies class so that you can't select more than
         // one opponent.
         $(".enemy").toggleClass("enemy bench");
@@ -151,7 +151,7 @@ $(document).ready(function () {
 
 
 
-        //  CODE ACTUALLY STARTS HERE ---------------------------------------------------
+        //  attackButton on click ACTUALLY STARTS HERE ---------------------------------------------------
 
 
 
@@ -163,9 +163,12 @@ $(document).ready(function () {
         // display opponent's current healthpoints on picture
         $(".dual").children("p").text("Health-Points = " + fighters[enemyName].healthPoints);
         // This displays to the user "You attacked enemy for _ damage"
-        
-        $(".battleDisplay").text("You attacked " + enemyName + " for " + fighters[playerName].attackPower + " damage.")
+        console.log($(".battleDisplay"))
+        $(".battleDisplay").text("You attacked " + enemyName + " for " + fighters[playerName].attackPower + " damage.");
+        console.log($(".battleDisplay"))
+       
         $("#attack").append($(".battleDisplay"));
+        console.log($(".battleDisplay"))
         
         
         afterPlayerAttack();
@@ -188,6 +191,7 @@ $(document).ready(function () {
             $(".battleDisplay").empty();
             $("#attack").append("<div class='endGame'>You lost against " + ($(".dual").attr("data-name")) +
                 "! Click Restart to try again.</div>");
+            $(".dual").remove();
             $("#attack").append("<button class='reset'>Reset</button>");
             $(".player").children("p").text("Health-Points = " + fighters[playerName].healthPoints);
         }
@@ -211,10 +215,12 @@ $(document).ready(function () {
         // after every time my player attacks enemy, my attack power increases by my initial attack power
         
         const initialAP = fighters[playerName].attackPower;
+
         console.log("fighters[playerName].attackPower before " + fighters[playerName].attackPower)
         fighters[playerName].attackPower += initialAP;
-        console.log("fighters[playerName].attackPower after " + fighters[playerName].attackPower)
 
+        console.log("fighters[playerName].attackPower after " + fighters[playerName].attackPower)
+        
 
         /* fightersAP = fightersAP + 5
             fightersAP = 10
@@ -227,7 +233,14 @@ $(document).ready(function () {
 
         // reset button
         $(".reset").click(function () {
-            $("div").empty();
+            // $("div").empty();
+            $("#players").empty();
+            $("#attackers").empty();
+            $(".battleDisplay").empty();
+            $(".dual").remove();
+            $(".endGame").empty();
+            $("button.reset").remove();
+            
             fighters.obi.healthPoints = 120;
             fighters.maul.healthPoints = 5000;
             fighters.skywalker.healthPoints = 100;
