@@ -5,23 +5,23 @@ $(document).ready(function () {
 
         "obi": {
             healthPoints: 120,
-            attackPower: 9,
-            counterAttackPower: 18,
+            attackPower: 8,
+            counterAttackPower: 16,
         },
         "maul": {
-            healthPoints: 180,
-            attackPower: 6,
-            counterAttackPower: 12
+            healthPoints: 200,
+            attackPower: 3,
+            counterAttackPower: 6
         },
         "skywalker": {
-            healthPoints: 100,
+            healthPoints: 90,
             attackPower: 11,
             counterAttackPower: 22,
         },
         "sidious": {
             healthPoints: 150,
-            attackPower: 10,
-            counterAttackPower: 20
+            attackPower: 5,
+            counterAttackPower: 10
         }
     }
 
@@ -203,13 +203,13 @@ let initialAP;
             $(".endGame").empty();
             $("button.reset").remove();
             fighters.obi.healthPoints = 120;
-            fighters.maul.healthPoints = 180;
-            fighters.skywalker.healthPoints = 100;
+            fighters.maul.healthPoints = 200;
+            fighters.skywalker.healthPoints = 90;
             fighters.sidious.healthPoints = 150;
-            fighters.obi.attackPower = 9;
-            fighters.maul.attackPower = 6;
+            fighters.obi.attackPower = 8;
+            fighters.maul.attackPower = 3;
             fighters.skywalker.attackPower = 11;
-            fighters.sidious.attackPower = 10;
+            fighters.sidious.attackPower = 5;
             loop();
             $(".attackBtn").attr("disabled", false);
             initialAP = null;
